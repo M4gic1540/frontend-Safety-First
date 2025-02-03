@@ -3,9 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const Images = [
     "https://mdcare.cl/wp-content/uploads/2021/09/77d928fe-1e67-11ec-a992-53b242dedc27-1-1024x442.jpg",
-    "https://mdcare.cl/wp-content/uploads/2021/09/77d928fe-1e67-11ec-a992-53b242dedc27-1-1024x442.jpg",
-    "https://mdcare.cl/wp-content/uploads/2021/09/77d928fe-1e67-11ec-a992-53b242dedc27-1-1024x442.jpg",
-    "https://mdcare.cl/wp-content/uploads/2021/09/77d928fe-1e67-11ec-a992-53b242dedc27-1-1024x442.jpg",
+    "https://cdn-cinfasalud.cinfa.com/wp-content/uploads/2019/03/CinfaSalud-botiquin-hogar-600.jpg?x19187",
+    "https://cdnx.jumpseller.com/ubl-store/image/25560449/FOTO_BOTIQUIN.jpeg.jpeg?1657118690",
 ];
 
 const sliderVariants = {
