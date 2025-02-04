@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { HiMenu, HiX } from "react-icons/hi";
 import { motion, AnimatePresence } from "framer-motion";
+import imgurl from "../imgs/Safety.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -24,7 +25,12 @@ const Navbar = () => {
       <nav className="flex items-center justify-between w-full max-w-6xl mx-auto p-4">
         {/* Logo */}
         <Link to="/" className="flex-shrink-0">
-          <img src="./src/imgs/Safety.png" alt="Logo" className="w-16 md:w-24 h-auto rounded-full" />
+          <img
+            id="logo-img"
+            src={imgurl}
+            alt="Logo"
+            className="w-16 md:w-24 h-auto rounded-full"
+          />
         </Link>
 
         {/* Menú de navegación (Escritorio) */}

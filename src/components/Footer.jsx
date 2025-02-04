@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaFacebook, FaTwitter, FaInstagram, FaWhatsapp, FaEnvelope } from "react-icons/fa";
+import imgurl from "../imgs/Safety.png";
 
 const Footer = () => {
   return (
@@ -9,8 +10,14 @@ const Footer = () => {
 
         {/* Sección: Información */}
         <div className="flex flex-col items-center md:items-start">
-          <Link to="/">
-            <img src="./src/imgs/Safety.png" alt="Logo" className="w-16 md:w-24 h-auto rounded-full mx-auto md:mx-0" />
+          {/* Logo */}
+          <Link to="/" className="flex-shrink-0">
+            <img
+              id="logo-img"
+              src={imgurl}
+              alt="Logo"
+              className="w-16 md:w-24 h-auto rounded-full"
+            />
           </Link>
           <p className="text-sm mt-2">Los mejores productos para tu seguridad</p>
         </div>
