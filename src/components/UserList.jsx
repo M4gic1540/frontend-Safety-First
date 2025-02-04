@@ -1,75 +1,87 @@
 import React, { useEffect, useState } from 'react';
 import { getAllUsers, deleteUser } from '../services/userApi';
 import { useNavigate } from 'react-router-dom';
+import useDebounce from '../hooks/useDebounce'; // Importar el hook
 
 function UserList() {
     const [users, setUsers] = useState([]);
+    const [filteredUsers, setFilteredUsers] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true); // Estado para el indicador de carga
-    const navigate = useNavigate(); // Hook para navegación
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+    
+    const debouncedSearchTerm = useDebounce(searchTerm, 500); // Retrasa la búsqueda
 
     useEffect(() => {
         const fetchUsers = async () => {
-            setLoading(true); // Activar carga
+            setLoading(true);
             try {
                 const token = localStorage.getItem('token');
                 if (!token) {
-                    // Si no hay token, redirigir al login
                     navigate('/login');
                     return;
                 }
-
                 const data = await getAllUsers();
                 setUsers(data);
+                setFilteredUsers(data); // Inicialmente, mostrar todos los usuarios
             } catch (err) {
                 console.error('Error fetching users:', err);
                 setError('Failed to fetch users. Please try again later.');
             } finally {
-                setLoading(false); // Desactivar carga
+                setLoading(false);
             }
         };
 
         fetchUsers();
     }, [navigate]);
 
+    useEffect(() => {
+        if (!debouncedSearchTerm) {
+            setFilteredUsers(users);
+        } else {
+            const filtered = users.filter((user) =>
+                `${user.first_name} ${user.last_name} ${user.username} ${user.email}`
+                    .toLowerCase()
+                    .includes(debouncedSearchTerm.toLowerCase())
+            );
+            setFilteredUsers(filtered);
+        }
+    }, [debouncedSearchTerm, users]);
+
     const handleEdit = (userId) => {
-        // Redirigir a la página de edición de usuario
         navigate(`/edit-user/${userId}`);
     };
 
-    const handleDelete = (userId) => {
-        // Lógica para eliminar usuario
-        // Se puede abrir un modal de confirmación para eliminar el usuario
-        alert(`Eliminar usuario con ID: ${userId}`);
-        
-        // Llamada a la API para eliminar el usuario
-        deleteUser(userId)
-            .then(() => {
-                // Actualizar la lista de usuarios despues de eliminar
+    const handleDelete = async (userId) => {
+        if (window.confirm("¿Estás seguro de que deseas eliminar este usuario?")) {
+            try {
+                await deleteUser(userId);
                 setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
-            })
-            .catch((err) => {
+            } catch (err) {
                 console.error('Error deleting user:', err);
                 setError('Failed to delete user. Please try again later.');
-            });
+            }
+        }
     };
 
-    if (loading) {
-        return <p>Loading users...</p>;
-    }
-
-    if (error) {
-        return <p className="text-red-500">{error}</p>;
-    }
-
-    if (users.length === 0) {
-        return <p>No users found.</p>;
-    }
+    if (loading) return <p>Loading users...</p>;
+    if (error) return <p className="text-red-500">{error}</p>;
+    if (filteredUsers.length === 0) return <p>No users found.</p>;
 
     return (
         <div className="mx-auto p-4">
+            {/* Campo de búsqueda */}
+            <input
+                type="text"
+                placeholder="Buscar usuario..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="mb-4 p-2 border border-gray-300 rounded w-full"
+            />
+
             <ul>
-                {users.map((user) => (
+                {filteredUsers.map((user) => (
                     <li key={user.id} className="mb-2 p-4 bg-gray-100 rounded shadow">
                         <span className='font-bold'>ID: </span> {user.id} <br />
                         <span className='font-bold'>Nombre: </span>{user.first_name} <br />

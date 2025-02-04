@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import AboutUs from './pages/AboutUs';
 import Contact from './pages/Contact';
 import EditForm from './components/EditForm';
+import Categories from './components/Categories';
 import { UserProvider } from './contexts/UserContext';
 
 const AppRoutes = () => (
@@ -21,6 +22,7 @@ const AppRoutes = () => (
       <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/edit-user/:userId" element={<EditForm />} />
+      <Route path="/categories" element={<Categories />} />
     </Routes>
   </Router>
   </UserProvider>
