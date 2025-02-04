@@ -31,7 +31,7 @@ const Footer = () => {
                 Inicio
               </Link>
             </li>
-            {["Productos", "Contacto", "Nosotros"].map((item) => (
+            {["Contacto", "Nosotros"].map((item) => (
               <li key={item}>
                 <Link to={`/${item.toLowerCase()}`} className="hover:underline">
                   {item}
